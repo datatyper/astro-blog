@@ -1,0 +1,65 @@
+---
+// Define the properties used in Background.astro
+export interface Props {
+    tag?: string; // Allow specifying the HTML tag (e.g., div, section)
+    className?: string; // Allow passing additional classes
+    image?: string; // Allow specifying the filename
+}
+
+const {
+    className,
+    image,
+} = Astro.props;
+
+let backgroundImage;
+try {
+    backgroundImage = await import(`../assets/backgrounds/${image}.svg`);
+    // import backgroundImage from "../assets/background-bricks.svg";
+    // console.log(backgroundImage);
+} catch (error) {
+    console.error(`Error loading image from ${image}.svg`, error);
+    backgroundImage = await import("../assets/backgrounds/circuit.svg");
+}
+---
+
+<div class:list={["background", className]} style={`--background-image: url(${backgroundImage.default.src})`}>
+</div>
+
+<style>
+    /* 3. Use the CSS variable in your styles */
+    .background {
+        background-image: var(--background-image); Use the variable
+        background-position: 0 0; /* Control the starting position */
+        background-attachment: fixed; /* fixed */
+        /* overflow: hidden; */
+
+        /* Ensure the element has some dimensions or content to see the background */
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: -10;
+        /* filter: blur(1px); */
+        
+    }
+
+    .cover {
+        background-repeat: no-repeat; /* Prevent the background from repeating */
+        background-size: cover; /* Scale the background image to cover the entire element */
+        background-position: center center; /* Center the background image */
+
+    }
+
+    svg {
+        stroke: red;
+    }
+    
+    .tile {
+        background-repeat: repeat; /* Make the background repeat */
+        background-size: 100px;
+
+    }
+
+    .opacity-low{
+        opacity: 2%;
+    }
+</style>
