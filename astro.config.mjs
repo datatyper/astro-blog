@@ -3,6 +3,5 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://datatyper.github.io',
-    base: '/astro-blog'
+    site: 'https://datatype.com'
 });
